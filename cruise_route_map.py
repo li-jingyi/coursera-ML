@@ -23,18 +23,54 @@ def create_cruise_map():
         {"name": "San Juan, Puerto Rico", "coords": [18.4655, -66.1057], "day": "Return"}
     ]
 
+    # Other major Caribbean islands for reference
+    other_islands = [
+        {"name": "Jamaica", "coords": [18.1096, -77.2975]},
+        {"name": "Haiti", "coords": [18.9712, -72.2852]},
+        {"name": "Dominican Republic", "coords": [18.7357, -70.1627]},
+        {"name": "Cuba", "coords": [21.5218, -77.7812]},
+        {"name": "Dominica", "coords": [15.4150, -61.3710]},
+        {"name": "Martinique", "coords": [14.6415, -61.0242]},
+        {"name": "Guadeloupe", "coords": [16.2650, -61.5510]},
+        {"name": "Grenada", "coords": [12.1165, -61.6790]},
+        {"name": "St. Vincent", "coords": [13.2528, -61.1971]},
+        {"name": "Trinidad", "coords": [10.6918, -61.2225]},
+        {"name": "Tobago", "coords": [11.1870, -60.7260]},
+        {"name": "Aruba", "coords": [12.5211, -69.9683]},
+        {"name": "Curaçao", "coords": [12.1696, -68.9900]},
+        {"name": "St. Kitts", "coords": [17.3578, -62.7830]},
+        {"name": "Nevis", "coords": [17.1508, -62.5789]},
+        {"name": "Montserrat", "coords": [16.7425, -62.1874]},
+        {"name": "Anguilla", "coords": [18.2206, -63.0686]},
+    ]
+
     # Calculate center point for map (average of all coordinates)
     center_lat = sum(stop["coords"][0] for stop in cruise_stops) / len(cruise_stops)
     center_lon = sum(stop["coords"][1] for stop in cruise_stops) / len(cruise_stops)
 
-    # Create base map centered on the Caribbean
+    # Create base map centered on the Caribbean with terrain view
     cruise_map = folium.Map(
         location=[center_lat, center_lon],
         zoom_start=7,
         tiles='OpenStreetMap'
     )
 
-    # Add alternative tile layers
+    # Add alternative tile layers with detailed coastlines and terrain
+    folium.TileLayer('OpenTopoMap', name='Topographic Map').add_to(cruise_map)
+    folium.TileLayer(
+        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        attr='Esri',
+        name='Satellite View',
+        overlay=False,
+        control=True
+    ).add_to(cruise_map)
+    folium.TileLayer(
+        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
+        attr='Esri',
+        name='Terrain View',
+        overlay=False,
+        control=True
+    ).add_to(cruise_map)
     folium.TileLayer('CartoDB positron', name='Light Map').add_to(cruise_map)
     folium.TileLayer('CartoDB dark_matter', name='Dark Map').add_to(cruise_map)
 
@@ -116,6 +152,23 @@ def create_cruise_map():
 
     # Add measure control for distances
     plugins.MeasureControl(position='bottomleft').add_to(cruise_map)
+
+    # Add markers for other Caribbean islands (reference points)
+    for island in other_islands:
+        folium.CircleMarker(
+            location=island["coords"],
+            radius=4,
+            color='gray',
+            fillColor='lightgray',
+            fillOpacity=0.5,
+            weight=1,
+            popup=folium.Popup(f"<b>{island['name']}</b><br>Reference Island", max_width=150),
+            tooltip=island["name"]
+        ).add_to(cruise_map)
+
+    # Add minimap for context
+    minimap = plugins.MiniMap(toggle_display=True, position='bottomright')
+    cruise_map.add_child(minimap)
 
     return cruise_map
 

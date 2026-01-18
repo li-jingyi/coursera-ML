@@ -27,13 +27,32 @@ An interactive visualization of a Caribbean cruise route visiting beautiful isla
    python cruise_route_map.py
    ```
 
-3. Open the generated `caribbean_cruise_map.html` file in your web browser to view the interactive map!
+3. Generate the detailed coastline map:
+   ```bash
+   python cruise_route_detailed_map.py
+   ```
+
+4. View the maps:
+   - Open `caribbean_cruise_map.html` in your browser for interactive map
+   - View `cruise_route_detailed_map.png` for detailed coastlines
+   - View `cruise_route_map.png` for simple route diagram
 
 ### Features
-- Interactive map with zoom and pan controls
-- Multiple map tile layers (standard, light, dark)
-- Markers for each port of call
-- Route line showing the cruise path
-- Tooltips and popups with location details
+
+**Interactive HTML Map:**
+- Multiple map layers: OpenStreetMap, Satellite View, Terrain, Topographic, Light/Dark themes
+- Zoom and pan controls with mini-map
+- Color-coded markers for each port of call
+- 17+ reference markers for other Caribbean islands
+- Route line with cruise path
+- Tooltips and detailed popups
 - Fullscreen mode
 - Distance measurement tool
+
+**Detailed Coastline Map:**
+- High-resolution (10m) coastlines of all Caribbean islands
+- Shows major islands: Cuba, Jamaica, Hispaniola, Puerto Rico, and Lesser Antilles
+- Accurate geographic projection
+- Land/ocean rendering with political boundaries
+- Reference labels for major Caribbean islands
+- Professional cartographic styling
