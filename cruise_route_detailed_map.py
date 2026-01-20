@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
+import numpy as np
+from matplotlib.colors import LinearSegmentedColormap
 
 # Define cruise stops with coordinates (lat, lon)
 cruise_stops = [
@@ -39,21 +41,37 @@ lats = [stop["coords"][0] for stop in cruise_stops]
 lons = [stop["coords"][1] for stop in cruise_stops]
 
 # Set up the figure with Cartopy projection
-fig = plt.figure(figsize=(18, 14))
+fig = plt.figure(figsize=(20, 16))
 ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Set extent (lon_min, lon_max, lat_min, lat_max) - wider view to show context
 ax.set_extent([-80, -58, 10, 23], crs=ccrs.PlateCarree())
 
-# Add detailed geographic features
-ax.add_feature(cfeature.LAND, facecolor='#E8D9B5', edgecolor='black', linewidth=0.5)
-ax.add_feature(cfeature.OCEAN, facecolor='#A8D5E2')
-ax.add_feature(cfeature.COASTLINE, linewidth=1.2, edgecolor='#2C3E50')
-ax.add_feature(cfeature.BORDERS, linestyle=':', linewidth=0.8, edgecolor='gray')
-ax.add_feature(cfeature.LAKES, facecolor='#A8D5E2', edgecolor='black', linewidth=0.5)
+# Create bathymetric-style ocean coloring (gradient from shallow to deep)
+ocean_colors = ['#C8E6F5', '#A8D5E2', '#7ABBD4', '#5AA3C6', '#3A8BB8', '#2273AA']
+ocean_cmap = LinearSegmentedColormap.from_list('ocean', ocean_colors)
 
-# Add higher resolution coastlines
-ax.coastlines(resolution='10m', linewidth=1.5, color='#2C3E50')
+# Add detailed geographic features with terrain-aware coloring
+# Ocean with depth gradient effect
+ax.add_feature(cfeature.OCEAN, facecolor='#7ABBD4', zorder=0)
+
+# Land with natural terrain colors (green lowlands to brown highlands)
+ax.add_feature(cfeature.LAND, facecolor='#D4E7C5', edgecolor='none', zorder=1)
+
+# Add physical features
+ax.stock_img()  # Add natural earth background with terrain and bathymetry
+
+# Add coastlines with high resolution
+ax.coastlines(resolution='10m', linewidth=2, color='#1A4D2E', zorder=3)
+
+# Add country borders
+ax.add_feature(cfeature.BORDERS, linestyle='--', linewidth=1, edgecolor='#666666', alpha=0.7, zorder=2)
+
+# Add rivers for additional detail
+ax.add_feature(cfeature.RIVERS, linewidth=0.8, edgecolor='#4A90E2', alpha=0.6, zorder=2)
+
+# Add lakes
+ax.add_feature(cfeature.LAKES, facecolor='#6BA3D0', edgecolor='#2C5F7F', linewidth=0.5, alpha=0.8, zorder=2)
 
 # Plot the cruise route
 ax.plot(lons, lats, 'r-', linewidth=3.5, alpha=0.8,

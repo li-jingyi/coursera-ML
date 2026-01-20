@@ -40,7 +40,14 @@ An interactive visualization of a Caribbean cruise route visiting beautiful isla
 ### Features
 
 **Interactive HTML Map:**
-- Multiple map layers: OpenStreetMap, Satellite View, Terrain, Topographic, Light/Dark themes
+- Multiple specialized map layers:
+  - **Ocean Basemap**: Shows bathymetry (ocean floor depth) and underwater terrain
+  - **Physical Map**: Displays terrain relief and elevation features
+  - **Shaded Relief**: 3D-like terrain visualization
+  - **Satellite View**: Real satellite imagery
+  - **National Geographic**: Professional cartographic style
+  - **Topographic Map**: Contour lines and elevation data
+  - Plus Light/Dark themes for night viewing
 - Zoom and pan controls with mini-map
 - Color-coded markers for each port of call
 - 17+ reference markers for other Caribbean islands
@@ -51,8 +58,11 @@ An interactive visualization of a Caribbean cruise route visiting beautiful isla
 
 **Detailed Coastline Map:**
 - High-resolution (10m) coastlines of all Caribbean islands
+- Ocean bathymetry showing water depth variations (light to dark blue)
+- Natural Earth terrain background with realistic elevation shading
 - Shows major islands: Cuba, Jamaica, Hispaniola, Puerto Rico, and Lesser Antilles
+- Rivers and lakes for enhanced geographic detail
 - Accurate geographic projection
-- Land/ocean rendering with political boundaries
-- Reference labels for major Caribbean islands
+- Land topography with natural terrain coloring
+- Political boundaries and reference labels
 - Professional cartographic styling

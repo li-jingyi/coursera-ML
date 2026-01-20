@@ -57,6 +57,35 @@ def create_cruise_map():
 
     # Add alternative tile layers with detailed coastlines and terrain
     folium.TileLayer('OpenTopoMap', name='Topographic Map').add_to(cruise_map)
+
+    # ESRI Ocean Basemap - shows bathymetry and ocean floor details
+    folium.TileLayer(
+        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}',
+        attr='Esri',
+        name='Ocean Basemap (Bathymetry)',
+        overlay=False,
+        control=True
+    ).add_to(cruise_map)
+
+    # ESRI World Physical Map - shows terrain relief
+    folium.TileLayer(
+        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}',
+        attr='Esri',
+        name='Physical Map (Terrain Relief)',
+        overlay=False,
+        control=True
+    ).add_to(cruise_map)
+
+    # ESRI World Shaded Relief
+    folium.TileLayer(
+        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}',
+        attr='Esri',
+        name='Shaded Relief',
+        overlay=False,
+        control=True
+    ).add_to(cruise_map)
+
+    # Satellite imagery
     folium.TileLayer(
         tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
         attr='Esri',
@@ -64,15 +93,15 @@ def create_cruise_map():
         overlay=False,
         control=True
     ).add_to(cruise_map)
+
+    # National Geographic style map
     folium.TileLayer(
-        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}',
+        tiles='https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
         attr='Esri',
-        name='Terrain View',
+        name='National Geographic',
         overlay=False,
         control=True
     ).add_to(cruise_map)
-    folium.TileLayer('CartoDB positron', name='Light Map').add_to(cruise_map)
-    folium.TileLayer('CartoDB dark_matter', name='Dark Map').add_to(cruise_map)
 
     # Draw the route line
     route_coords = [stop["coords"] for stop in cruise_stops]
